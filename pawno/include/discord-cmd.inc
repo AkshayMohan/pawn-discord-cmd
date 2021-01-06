@@ -1,16 +1,23 @@
 /*
 ________________________________________________________________________________
 
-						discord-cmd.inc
+						discord-command.inc
 			Command processor for SA-MP Discord Connector
 
 
 @Author			:		Akshay Mohan - https://github.com/AkshayMohan
-@Version        :       v1.0.0
+@Version        :       v1.0.1
 @Github         :       https://github.com/AkshayMohan/pawn-discord-cmd
 
-Last update: 3rd of January, 2021
+Last update: 6th of January, 2021
 
+Changelogs:
+
+v1.0.1 - 6th of January, 2021
+	- Added function DCMD_GetCommandMessageId();
+
+v1.0.0 - 3rd of January, 2021
+	- Initial release.
 
 MIT License
 
@@ -57,7 +64,7 @@ ________________________________________________________________________________
 
 #tryinclude <discord-connector>
 
-#if defined DCMD_STRICT_CASE
+#if defined DCMD_IGNORE_CASE
 	static const DCMD_MAX_CMD_LEN = 32 - 5;
 #endif
 const DCMD_TOTAL_CMD_SIZE = 256;
@@ -71,6 +78,12 @@ const DCMD_TOTAL_CMD_SIZE = 256;
 										cmdtext[], success);
 #endif
 
+static DCC_Message:g_DCMDMessageID = DCC_Message:0;
+
+stock DCC_Message:DCMD_GetCommandMessageId() {
+
+	return g_DCMDMessageID;
+}
 
 public DCC_OnMessageCreate(DCC_Message:message) {
 
@@ -89,17 +102,18 @@ public DCC_OnMessageCreate(DCC_Message:message) {
 
 		DCC_IsUserBot(user, isBot);
 		#if !defined DCMD_ALLOW_BOTS
-		    if(isBot)
-		    	return 0;
+			if(isBot)
+				return 0;
 		#endif
+		g_DCMDMessageID = message;
 		#if defined OnDiscordCommandAttempt
-		    if(!OnDiscordCommandAttempt(user, channel, cmdtext[1]))
-		        return 0;
+			if(!OnDiscordCommandAttempt(user, channel, cmdtext[1]))
+				return 0;
 		#endif
 
 		static command[32] = "DCMD_", success = 0;
 		new pos;
-		#if defined DCMD_STRICT_CASE
+		#if defined DCMD_IGNORE_CASE
 			pos = strfind(cmdtext, " ", false, 1);
 			command[5] = '\0';
 			if(pos != -1) {
@@ -107,17 +121,17 @@ public DCC_OnMessageCreate(DCC_Message:message) {
 				strcat(command, cmdtext[1], pos + 5);
 				while(cmdtext[pos] == ' ') ++pos;
 				if(cmdtext[pos]) {
-				    hasParams = true;
+					hasParams = true;
 				}
 			} else {
 				strcat(command, cmdtext[1], DCMD_MAX_CMD_LEN);
 			}
 		#else
-		    new idx = 5;
+			new idx = 5;
 			pos = 1;
 			while(idx < 31 && cmdtext[pos] > ' ') {
 
-			    command[idx++] = (
+				command[idx++] = (
 					(cmdtext[pos] >= 'A' && cmdtext[pos] <= 'Z')
 					? (cmdtext[pos] | 0x20) : cmdtext[pos]
 					);
@@ -126,26 +140,26 @@ public DCC_OnMessageCreate(DCC_Message:message) {
 			command[idx] = '\0';
 			while(cmdtext[pos] == ' ') ++pos;
 			if(cmdtext[pos]) {
-			    hasParams = true;
+				hasParams = true;
 			}
 		#endif
 		if(hasParams) {
-		    success = CallLocalFunction(command, "iis",
-		                                _:user, _:channel, cmdtext[pos]);
+			success = CallLocalFunction(command, "iis",
+										_:user, _:channel, cmdtext[pos]);
 		} else {
 			success = CallLocalFunction(command, "iis",
-			                            _:user, _:channel, "\1");
+										_:user, _:channel, "\1");
 		}
 		#if defined OnDiscordCommandPerformed
-		    return OnDiscordCommandPerformed(
-		                            user, channel, cmdtext[1], success);
+			return OnDiscordCommandPerformed(
+									user, channel, cmdtext[1], success);
 		#else
-		    return 1;
+			return 1;
 		#endif
 		#pragma unused success
 	}
 	#if defined DCMD_OnMessageCreate
-	    return DCMD_OnMessageCreate(message);
+		return DCMD_OnMessageCreate(message);
 	#else
 		return 1;
 	#endif
