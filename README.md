@@ -39,6 +39,8 @@ There are two callbacks:
 - `OnDiscordCommandPerformed(DCC_User:user, DCC_Channel:channel, cmdtext[], success);`
     - This callback is fired after performing the command.
     - `success = 0` denotes a failure.
+## Functions
+- `DCC_Message:DCMD_GetCommandMessageId()` - Returns `DCC_Message:message` identifier for the last used command. This can be used under `DCMD` commands or the callbacks this include provides.
 
 ## Syntax
 ```pawn
@@ -59,6 +61,17 @@ DCMD:test(user, channel, params[]) {
 
     DCC_SendChannelMessage(channel, "Hello from server!");
     return 1;
+}
+
+DCMD:delete(user, channel, params[]) {
+
+    new
+        DCC_Message:message;
+    message = DCMD_GetCommandMessageId();
+	//delete !delete message of user.
+	DCC_DeleteMessage(message);
+	DCC_SendChannelMessage(channel, "deleted!");
+	return 1;
 }
 
 DCMD:say(user, channel, params[]) {
