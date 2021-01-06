@@ -39,6 +39,7 @@ There are two callbacks:
 - `OnDiscordCommandPerformed(DCC_User:user, DCC_Channel:channel, cmdtext[], success);`
     - This callback is fired after performing the command.
     - `success = 0` denotes a failure.
+
 ## Functions
 - `DCC_Message:DCMD_GetCommandMessageId()` - Returns `DCC_Message:message` identifier for the last used command. This can be used under `DCMD` commands or the callbacks this include provides.
 
