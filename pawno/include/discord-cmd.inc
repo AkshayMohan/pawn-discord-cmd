@@ -42,7 +42,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-native DCMD_GetCommandMessageId();
+native DCC_Message:DCMD_GetCommandMessageId();
 ________________________________________________________________________________    */
 
 #if defined _included_discord_command
