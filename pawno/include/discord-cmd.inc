@@ -6,12 +6,15 @@ ________________________________________________________________________________
 
 
 @Author			:		Akshay Mohan - https://github.com/AkshayMohan
-@Version        :       v1.0.1
+@Version        :       v1.0.2
 @Github         :       https://github.com/AkshayMohan/pawn-discord-cmd
 
-Last update: 6th of January, 2021
+Last update: 7th of January, 2021
 
 Changelogs:
+
+v1.0.2 - 7th of January, 2021
+	- Fixed case sensitivity.
 
 v1.0.1 - 6th of January, 2021
 	- Added function DCMD_GetCommandMessageId();
