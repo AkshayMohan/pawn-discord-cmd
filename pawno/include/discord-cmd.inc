@@ -67,7 +67,7 @@ ________________________________________________________________________________
 
 #tryinclude <discord-connector>
 
-#if defined DCMD_IGNORE_CASE
+#if defined DCMD_STRICT_CASE
 	static const DCMD_MAX_CMD_LEN = 32 - 5;
 #endif
 const DCMD_TOTAL_CMD_SIZE = 256;
@@ -116,7 +116,7 @@ public DCC_OnMessageCreate(DCC_Message:message) {
 
 		static command[32] = "DCMD_", success = 0;
 		new pos;
-		#if defined DCMD_IGNORE_CASE
+		#if defined DCMD_STRICT_CASE
 			pos = strfind(cmdtext, " ", false, 1);
 			command[5] = '\0';
 			if(pos != -1) {
