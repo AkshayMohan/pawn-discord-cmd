@@ -3,8 +3,16 @@ Command processor for SA-MP Discord Connector.
 
 **pawn-discord-cmd** is a fast command processor that supports creating discord commands in PAWN with ease. This is made to support [samp-discord-connector](https://github.com/maddinat0r/samp-discord-connector) plugin.
 
-## Installing
-Download and copy `discord-cmd.inc` to `pawno/include` directory.
+## Installation
+### Using sampctl
+```
+sampctl package install AkshayMohan/pawn-discord-cmd
+```
+
+### Manual install
+- Download and copy `discord-cmd.inc` to `pawno/include` directory.
+
+## Inclusion
 To include it in any script, first include `discord-connector` and then include `discord-cmd` as shown below:
 
 ```pawn
@@ -12,6 +20,7 @@ To include it in any script, first include `discord-connector` and then include 
 #include <discord-connector> //discord-cmd will try to include if you don't include this yourself.
 #include <discord-cmd>
 ```
+Check out the example below to understand usage.
 
 ## Configuration
 
