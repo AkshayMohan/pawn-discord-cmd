@@ -1,0 +1,8 @@
+{
+  "user": "AkshayMohan",
+  "repo": "pawn-discord-cmd",
+	"dependencies": [
+		"sampctl/samp-stdlib",
+		"maddinat0r/samp-discord-connector:v0.3.5"
+	]
+}
